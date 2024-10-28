@@ -1,0 +1,6 @@
+@giowebtestAPI_HostAddress = http://localhost:5155
+
+GET {{giowebtestAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

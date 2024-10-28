@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "appInsights1": {
+      "ignored": "true",
+      "type": "appInsights"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "",
+      "secretStore": "LocalSecretsFile",
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    },
+    "apis1": {
+      "ignored": "True",
+      "type": "apis"
+    }
+  }
+}
