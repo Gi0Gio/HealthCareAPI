@@ -10,4 +10,11 @@
         public string Type { get; set; }
         public int ClinicId { get; set; }
     }
+
+    public class PatientAppointmentDto
+    {
+        public DateTime AppointmentDate { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+    }
 }

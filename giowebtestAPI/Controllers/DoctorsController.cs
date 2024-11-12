@@ -42,6 +42,7 @@ namespace giowebtestAPI.Controllers
         {
             var doctor = new Doctor
             {
+                UserId = doctorDto.UserId,
                 FirstName = doctorDto.FirstName,
                 LastName = doctorDto.LastName,
                 Specialty = doctorDto.Specialty,

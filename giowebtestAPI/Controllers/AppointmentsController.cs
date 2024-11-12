@@ -16,6 +16,26 @@ namespace giowebtestAPI.Controllers
             _context = context;
         }
 
+        [HttpPost("patientCreate")]
+        public async Task<ActionResult> CreateAppointment(PatientAppointmentDto patientAppointmentDto, int patientId)
+        {
+            var newAppointment = new Appointment
+            {
+                PatientId = patientId,
+                ClinicId = 1, // Fixed to clinic ID 1 as per requirements
+                DoctorId = 2,
+                AppointmentDate = patientAppointmentDto.AppointmentDate,
+                Type = patientAppointmentDto.Type,
+                Description = patientAppointmentDto.Description,
+                Status = "Pending"
+            };
+
+            _context.Appointments.Add(newAppointment);
+            await _context.SaveChangesAsync();
+
+            return Ok("Appointment request submitted successfully!");
+        }
+
         // POST: api/Appointments
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(AppointmentDto appointmentDto)
@@ -55,6 +75,33 @@ namespace giowebtestAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        [HttpPut("clinicUpdate")]
+        public async Task<ActionResult> UpdateAppointmentStatus(int appointmentId, int? doctorId, string status)
+        {
+            // Validate status
+            if (status != "Accepted" && status != "Canceled")
+            {
+                return BadRequest("Invalid status. Only 'Accepted' or 'Canceled' are allowed.");
+            }
+
+            // Retrieve the appointment by ID
+            var appointment = await _context.Appointments.FindAsync(appointmentId);
+            if (appointment == null)
+            {
+                return NotFound("Appointment not found.");
+            }
+
+            // Update the doctor ID and status if specified
+            if (status == "Accepted" && doctorId.HasValue)
+            {
+                appointment.DoctorId = doctorId.Value; // Assign the doctor
+            }
+            appointment.Status = status; // Update status to either "Accepted" or "Canceled"
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+            return Ok("Appointment updated successfully.");
         }
 
         // GET: api/Appointments

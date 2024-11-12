@@ -36,26 +36,25 @@ namespace giowebtestAPI.Controllers
             return patient;
         }
 
-        // POST: api/Patients
+        // POST: api/Doctors
         [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(PatientDto patientDto)
+        public async Task<ActionResult<Doctor>> PostDoctor(DoctorDto doctorDto)
         {
-            var patient = new Patient
+            var doctor = new Doctor
             {
-                FirstName = patientDto.FirstName,
-                LastName = patientDto.LastName,
-                Dni = patientDto.Dni,
-                Address = patientDto.Address,
-                BirthDate = patientDto.BirthDate,
-                PhoneNumber = patientDto.PhoneNumber
+                UserId = doctorDto.UserId,
+                FirstName = doctorDto.FirstName,
+                LastName = doctorDto.LastName,
+                Specialty = doctorDto.Specialty,
+                PhoneNumber = doctorDto.PhoneNumber,
+                OfficeHours = doctorDto.OfficeHours
             };
 
-            _context.Patients.Add(patient);
+            _context.Doctors.Add(doctor);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
+            return CreatedAtAction(nameof(GetDoctor), new { id = doctor.Id }, doctor);
         }
-
         // PUT: api/Patients/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPatient(int id, PatientDto patientDto)

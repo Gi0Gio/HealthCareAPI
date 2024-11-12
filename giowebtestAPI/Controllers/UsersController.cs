@@ -106,7 +106,7 @@ namespace giowebtestAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet("testconnection")]
+        [HttpGet("api/users/testconnection")]
         public IActionResult TestConnection()
         {
             try
