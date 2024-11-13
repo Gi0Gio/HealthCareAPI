@@ -47,7 +47,10 @@ namespace giowebtestAPI.Controllers
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
-            return Ok("The Registration fué Succesful, Vato!");
+            return Ok(new
+            {
+                UserId = newUser.Id
+            });
         }
 
         [HttpPost("login")]

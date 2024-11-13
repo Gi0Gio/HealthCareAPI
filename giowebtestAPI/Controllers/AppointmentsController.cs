@@ -47,6 +47,7 @@ namespace giowebtestAPI.Controllers
                 AppointmentDate = appointmentDto.AppointmentDate,
                 Description = appointmentDto.Description,
                 Type = appointmentDto.Type,
+                ClinicId = 1,
                 Status = "Pending"
             };
 
@@ -123,6 +124,30 @@ namespace giowebtestAPI.Controllers
 
             return appointment;
         }
+        // GET: api/Appointments/ByPatient/{patientId}
+        [HttpGet("ByPatient/{patientId}")]
+        public async Task<ActionResult<IEnumerable<AppointmentDetailDto>>> GetAppointmentsByPatient(int patientId)
+        {
+            var appointments = await _context.Appointments
+                .Where(a => a.PatientId == patientId)
+                .Include(a => a.Doctor) // Asegúrate de tener una relación de navegación "Doctor" en la entidad Appointment
+                .Select(a => new AppointmentDetailDto
+                {
+                    Id = a.Id,
+                    PatientId = a.PatientId,
+                    DoctorId = a.DoctorId,
+                    DoctorName = a.Doctor.FirstName + " " + a.Doctor.LastName,
+                    AppointmentDate = a.AppointmentDate,
+                    Description = a.Description,
+                    Status = a.Status,
+                    Type = a.Type,
+                    ClinicId = a.ClinicId
+                })
+                .ToListAsync();
+
+            return appointments;
+        }
+
 
         // DELETE: api/Appointments/{id}
         [HttpDelete("{id}")]

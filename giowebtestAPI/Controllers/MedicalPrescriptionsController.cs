@@ -36,6 +36,36 @@ namespace giowebtestAPI.Controllers
             return medicalPrescription;
         }
 
+        // GET: api/MedicalPrescriptions/ByDoctor/{doctorId}
+        [HttpGet("ByDoctor/{doctorId}")]
+        public async Task<ActionResult<IEnumerable<MedicalPrescription>>> GetMedicalPrescriptionsByDoctor(int doctorId)
+        {
+            var prescriptions = await _context.MedicalPrescriptions
+                                              .Where(mp => mp.DoctorId == doctorId)
+                                              .ToListAsync();
+            if (!prescriptions.Any())
+            {
+                return NotFound($"No se encontraron prescripciones para el Doctor con ID: {doctorId}");
+            }
+
+            return prescriptions;
+        }
+
+        // GET: api/MedicalPrescriptions/ByPatient/{patientId}
+        [HttpGet("ByPatient/{patientId}")]
+        public async Task<ActionResult<IEnumerable<MedicalPrescription>>> GetMedicalPrescriptionsByPatient(int patientId)
+        {
+            var prescriptions = await _context.MedicalPrescriptions
+                                              .Where(mp => mp.PatientId == patientId)
+                                              .ToListAsync();
+            if (!prescriptions.Any())
+            {
+                return NotFound($"No se encontraron prescripciones para el Paciente con ID: {patientId}");
+            }
+
+            return prescriptions;
+        }
+
         // POST: api/MedicalPrescriptions
         [HttpPost]
         public async Task<ActionResult<MedicalPrescription>> PostMedicalPrescription(MedicalPrescriptionDto medicalPrescriptionDto)
